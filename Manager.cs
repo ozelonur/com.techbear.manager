@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TechBear.Manager
 {
-    public abstract class Manager<T> : MonoBehaviour where T : MonoBehaviour
+   public abstract class Manager<T> : MonoBehaviour where T : MonoBehaviour
     {
         #region Private Variables
 
@@ -20,35 +20,15 @@ namespace TechBear.Manager
                 {
                     return _instance;
                 }
-
+                
                 _instance = FindObjectOfType<T>();
 
                 if (_instance == null)
                 {
-                    GameObject singletonObject = new GameObject(typeof(T).Name);
-                    _instance = singletonObject.AddComponent<T>();
-                    DontDestroyOnLoad(singletonObject);
+                    Debug.LogError("No instance of " + typeof(T) + " found!");
                 }
 
                 return _instance;
-            }
-        }
-
-        #endregion
-
-        #region MonoBehavior Methods
-
-        protected virtual void Awake()
-        {
-            if (_instance == null)
-            {
-                _instance = this as T;
-                DontDestroyOnLoad(gameObject);
-            }
-
-            else
-            {
-                Destroy(gameObject);
             }
         }
 
